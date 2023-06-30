@@ -444,7 +444,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           fishType: 'white prawns',
                           labelText: 'White Prawns',
                         ),
-                      ),x
+                      ),
                       SizedBox(
                         child: buildFishTypeContainer(
                           fishType: 'blue crab',
