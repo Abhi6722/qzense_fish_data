@@ -14,6 +14,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _passwordVisible = false; // Added variable for password visibility
 
   Future<void> _login() async {
     final url = Uri.parse('http://15.207.142.254:8000/auth/login/');
@@ -23,7 +24,8 @@ class _LoginPageState extends State<LoginPage> {
     };
     final headers = {'Content-Type': 'application/json'};
 
-    final response = await http.post(url, headers: headers, body: json.encode(body));
+    final response =
+    await http.post(url, headers: headers, body: json.encode(body));
     if (response.statusCode == 200) {
       // Login successful, extract access token from response
       final responseBody = json.decode(response.body);
@@ -60,7 +62,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -76,7 +77,6 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ),
-
         body: Stack(
           children: [
             // Background image
@@ -129,11 +129,23 @@ class _LoginPageState extends State<LoginPage> {
                         const Divider(height: 1, color: Colors.grey),
                         TextFormField(
                           controller: _passwordController,
-                          obscureText: true,
-                          decoration: const InputDecoration(
+                          obscureText: !_passwordVisible, // Update obscureText property based on visibility
+                          decoration: InputDecoration(
                             labelText: 'Password',
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.all(16),
+                            suffixIcon: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  _passwordVisible = !_passwordVisible;
+                                });
+                              },
+                              child: Icon(
+                                _passwordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -145,8 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                     minWidth: double.infinity,
                     height: 50,
                     textColor: Colors.white,
-                    onPressed:
-                    _login, // Call the _login function when the button is pressed
+                    onPressed: _login, // Call the _login function when the button is pressed
                     child: const Text('Login'),
                   ),
                 ],

@@ -35,6 +35,8 @@ class _MyHomePageState extends State<MyHomePage> {
     'Tilapia',
     'Rohu',
     'Roopchand',
+    'White Prawns',
+    'Blue Crab',
     'Other'
   ];
 
@@ -435,6 +437,18 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: buildFishTypeContainer(
                           fishType: 'black pomfret',
                           labelText: 'Black Pomfret',
+                        ),
+                      ),
+                      SizedBox(
+                        child: buildFishTypeContainer(
+                          fishType: 'white prawns',
+                          labelText: 'White Prawns',
+                        ),
+                      ),x
+                      SizedBox(
+                        child: buildFishTypeContainer(
+                          fishType: 'blue crab',
+                          labelText: 'Blue Crab',
                         ),
                       ),
                       Row(
