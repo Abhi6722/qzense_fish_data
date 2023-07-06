@@ -38,6 +38,10 @@ class _MyHomePageState extends State<MyHomePage> {
     'White Prawns',
     'Blue Crab',
     'Tiger Prawns',
+    'Dotted Crab',
+    'Katla',
+    'C Boss',
+    'Basa',
     'Other'
   ];
 
@@ -457,6 +461,26 @@ class _MyHomePageState extends State<MyHomePage> {
                           fishType: 'tiger prawns',
                           labelText: 'Tiger Prawns',
                         ),
+                      ),SizedBox(
+                        child: buildFishTypeContainer(
+                          fishType: 'dotted crab',
+                          labelText: 'Dotted Crab',
+                        ),
+                      ),SizedBox(
+                        child: buildFishTypeContainer(
+                          fishType: 'katla',
+                          labelText: 'Katla',
+                        ),
+                      ),SizedBox(
+                        child: buildFishTypeContainer(
+                          fishType: 'c boss',
+                          labelText: 'C Boss',
+                        ),
+                      ),SizedBox(
+                        child: buildFishTypeContainer(
+                          fishType: 'basa',
+                          labelText: 'Basa',
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -521,6 +545,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 const SizedBox(height: 10.0),
                 MaterialButton(
+                  height: 40,
                   onPressed: sendDataToBackend,
                   color: const Color(0xFF27485D),
                   child: const Text('Submit',
