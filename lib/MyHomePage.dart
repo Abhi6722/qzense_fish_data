@@ -42,6 +42,9 @@ class _MyHomePageState extends State<MyHomePage> {
     'Katla',
     'C Boss',
     'Basa',
+    'Lady',
+    'Silver Croaker',
+    'Barracuda',
     'Other'
   ];
 
@@ -480,6 +483,21 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: buildFishTypeContainer(
                           fishType: 'basa',
                           labelText: 'Basa',
+                        ),
+                      ),SizedBox(
+                        child: buildFishTypeContainer(
+                          fishType: 'lady',
+                          labelText: 'Lady',
+                        ),
+                      ),SizedBox(
+                        child: buildFishTypeContainer(
+                          fishType: 'silver croaker',
+                          labelText: 'Silver Croaker',
+                        ),
+                      ),SizedBox(
+                        child: buildFishTypeContainer(
+                          fishType: 'barracuda',
+                          labelText: 'Barracuda',
                         ),
                       ),
                       Row(
