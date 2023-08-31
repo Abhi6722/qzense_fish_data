@@ -50,6 +50,48 @@ class _MyHomePageState extends State<MyHomePage> {
     'Other'
   ];
 
+  final List<String> _availableReasons = [
+    'Cuts and Damage',
+    'Size',
+    'Color',
+    'Softness',
+    'Red Head in Prawns',
+    'Smell',
+    'Others',
+  ];
+
+  final List<String> _selectedReasons = [];
+  bool _showOtherReasonField = false;
+
+  void _toggleReason(String reason) {
+    setState(() {
+      if (_selectedReasons.contains(reason)) {
+        _selectedReasons.remove(reason);
+        if (reason == 'Others') {
+          _showOtherReasonField = false;
+          _descriptionController.clear(); // Clear the text when "Others" is deselected
+        }
+      } else {
+        _selectedReasons.add(reason);
+        if (reason == 'Others') {
+          _showOtherReasonField = true;
+        }
+      }
+    });
+  }
+
+
+
+  void setReason(String reason, bool selected) {
+    setState(() {
+      if (selected) {
+        _selectedReasons.add(reason);
+      } else {
+        _selectedReasons.remove(reason);
+      }
+    });
+  }
+
   late bool _showOtherFishTypeField = false;
   final _descriptionController = TextEditingController();
   final picker = ImagePicker();
@@ -87,6 +129,8 @@ class _MyHomePageState extends State<MyHomePage> {
       _image = null;
       _label = '';
       _descriptionController.clear();
+      _selectedReasons.clear();
+      _showOtherReasonField = false;
       _otherFishTypeController.clear();
     });
   }
@@ -211,7 +255,14 @@ class _MyHomePageState extends State<MyHomePage> {
     request.fields['type'] =
         _fishType == 'Other' ? _otherFishTypeController.text : _fishType;
     request.fields['labels'] = _label;
-    request.fields['description'] = _descriptionController.text;
+
+    String rejectionReasons = _selectedReasons.join(', ');
+    if (_showOtherReasonField && _descriptionController.text.isNotEmpty) {
+      rejectionReasons += ', ${_descriptionController.text}';
+    }
+
+    request.fields['description'] = rejectionReasons;
+
 
     // // Print data being sent to API
     // print('Sending data to API: ${request.fields.toString()}');
@@ -343,19 +394,31 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
 
                 const SizedBox(height: 20.0),
-                Text('Description (Optional)',
+                // Text('Description (Optional)',
+                //     style: Theme.of(context).textTheme.titleMedium),
+                // const SizedBox(height: 5.0),
+                // TextField(
+                //   decoration: const InputDecoration(
+                //       hintText: 'Description',
+                //       border: OutlineInputBorder(),
+                //       focusedBorder: OutlineInputBorder(
+                //         borderSide:
+                //             BorderSide(color: Color(0xFF27485D), width: 1.0),
+                //       )),
+                //   controller: _descriptionController,
+                //   maxLines: 2,
+                // ),
+
+                Text('Reason for Rejection:',
                     style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(height: 5.0),
-                TextField(
-                  decoration: const InputDecoration(
-                      hintText: 'Description',
-                      border: OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color(0xFF27485D), width: 1.0),
-                      )),
-                  controller: _descriptionController,
-                  maxLines: 2,
+                Wrap(
+                  direction: Axis.horizontal,
+                  spacing: 10,
+                  runSpacing: 5,
+                  children: _availableReasons.map((reason) {
+                    return buildReasonCheckbox(reason);
+                  }).toList(),
                 ),
 
                 const SizedBox(height: 20.0),
@@ -639,5 +702,86 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     );
+  }
+
+  Widget buildReasonCheckbox(String reason) {
+    if (reason == 'Others') {
+      return Column(
+        children: [
+          Row(
+            children: [
+              SizedBox(
+                width: 180,
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  color: _selectedReasons.contains(reason)
+                      ? Colors.cyan.withOpacity(0.1)
+                      : null,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        reason,
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                      Checkbox(
+                        value: _selectedReasons.contains(reason),
+                        onChanged: (value) => _toggleReason(reason),
+                        shape: const CircleBorder(),
+                        activeColor: const Color(0xFF27485D),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          if (_showOtherReasonField)
+            SizedBox(
+              // width: 180,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    hintText: 'Enter Other Reason',
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Color(0xFF27485D), width: 1.0),
+                    ),
+                  ),
+                  controller: _descriptionController,
+                  maxLines: 1,
+                ),
+              ),
+            ),
+        ],
+      );
+    } else {
+      return SizedBox(
+        width: 180,
+        child: Container(
+          padding: const EdgeInsets.all(2),
+          color: _selectedReasons.contains(reason)
+              ? Colors.cyan.withOpacity(0.1)
+              : null,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                reason,
+                style: const TextStyle(fontSize: 14),
+              ),
+              Checkbox(
+                value: _selectedReasons.contains(reason),
+                onChanged: (value) => _toggleReason(reason),
+                shape: const CircleBorder(),
+                activeColor: const Color(0xFF27485D),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
   }
 }
