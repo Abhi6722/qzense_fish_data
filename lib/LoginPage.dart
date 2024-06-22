@@ -17,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _passwordVisible = false; // Added variable for password visibility
 
   Future<void> _login() async {
-    final url = Uri.parse('http://15.207.142.254:8000/auth/login/');
+    final url = Uri.parse('http://fishdata.qzenselabs.com/auth/login/');
     final body = {
       'username': _usernameController.text,
       'password': _passwordController.text

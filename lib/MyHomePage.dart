@@ -243,7 +243,7 @@ class _MyHomePageState extends State<MyHomePage> {
       return;
     }
 
-    final uri = Uri.parse('http://15.207.142.254:8000/api/fish/');
+    final uri = Uri.parse('http://fishdata.qzenselabs.com/api/fish/');
     final request = http.MultipartRequest('POST', uri);
 
     if (_image != null) {
@@ -516,6 +516,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: buildFishTypeContainer(
                           fishType: 'white prawns',
                           labelText: 'White Prawns',
+                        ),
+                      ),
+                      SizedBox(
+                        child: buildFishTypeContainer(
+                          fishType: 'sea prawns',
+                          labelText: 'Sea Prawns',
                         ),
                       ),
                       SizedBox(
